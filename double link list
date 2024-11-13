@@ -1,0 +1,67 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Define the structure for a node in the double linked list
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* prev;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->next = NULL;
+    newNode->prev = NULL;
+    return newNode;
+}
+
+// Function to insert a node at the end of the double linked list
+void insertEnd(struct Node** head_ref, int new_data) {
+    struct Node* new_node = createNode(new_data);
+    struct Node* last = *head_ref;
+
+    if (*head_ref == NULL) {
+        *head_ref = new_node;
+        return;
+    }
+
+    while (last->next != NULL) {
+        last = last->next;
+    }
+
+    last->next = new_node;
+    new_node->prev = last;
+}
+
+// Function to print the double linked list
+void printList(struct Node* node) {
+    struct Node* last;
+    printf("Traversal in forward direction:\n");
+    while (node != NULL) {
+        printf("%d ", node->data);
+        last = node;
+        node = node->next;
+    }
+
+    printf("\nTraversal in reverse direction:\n");
+    while (last != NULL) {
+        printf("%d ", last->data);
+        last = last->prev;
+    }
+}
+
+// Main function to demonstrate the double linked list
+int main() {
+    struct Node* head = NULL;
+
+    insertEnd(&head, 1);
+    insertEnd(&head, 2);
+    insertEnd(&head, 3);
+    insertEnd(&head, 4);
+
+    printList(head);
+
+    return 0;
+}
